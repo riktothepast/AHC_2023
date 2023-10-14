@@ -1,0 +1,119 @@
+[gd_scene load_steps=12 format=3 uid="uid://bdw2k217di8ky"]
+
+[ext_resource type="Script" path="res://Scripts/Player.cs" id="1_d4dmw"]
+[ext_resource type="Script" path="res://Scripts/TimerBar.cs" id="1_tsy1t"]
+[ext_resource type="Texture2D" uid="uid://gbqhn6fq7qsm" path="res://Sprites/clerk.png" id="3_afe1l"]
+[ext_resource type="Script" path="res://Scripts/Ingredient.cs" id="3_qs7h0"]
+[ext_resource type="Script" path="res://Scripts/GameManager.cs" id="4_6rc6c"]
+[ext_resource type="Texture2D" uid="uid://coj146dmxa8ek" path="res://Sprites/Placeholders/color_2.png" id="5_12j8e"]
+[ext_resource type="Texture2D" uid="uid://b6bvwdullfe2h" path="res://Sprites/Placeholders/color_0.png" id="6_t6lt4"]
+[ext_resource type="Texture2D" uid="uid://b2j04l066ffjt" path="res://Sprites/Placeholders/color_1.png" id="7_f8pi0"]
+[ext_resource type="Texture2D" uid="uid://ch80af1llmgw2" path="res://Sprites/Placeholders/color_3.png" id="8_pjawc"]
+[ext_resource type="Texture2D" uid="uid://lux3t5vba57o" path="res://Sprites/Placeholders/color_4.png" id="9_nj2n4"]
+[ext_resource type="Texture2D" uid="uid://d3t80xcs73prf" path="res://Sprites/Placeholders/color_5.png" id="10_45pms"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+editor_draw_limits = true
+
+[node name="Player" type="Node2D" parent="."]
+position = Vector2(0, 68)
+script = ExtResource("1_d4dmw")
+_aligmentSpeed = 2.0
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+texture_filter = 1
+texture = ExtResource("3_afe1l")
+
+[node name="GameManager" type="Node2D" parent="." node_paths=PackedStringArray("_ingredients", "_aligmentPoint")]
+position = Vector2(0, 100)
+script = ExtResource("4_6rc6c")
+_timePerRequest = 1.5
+_ingredients = [NodePath("AligmentPoint"), NodePath("AligmentPoint2"), NodePath("AligmentPoint3"), NodePath("AligmentPoint4"), NodePath("AligmentPoint5"), NodePath("AligmentPoint6")]
+_aligmentPoint = NodePath("AligmentPositionForCustomers")
+
+[node name="AligmentPoint" type="Node2D" parent="GameManager"]
+position = Vector2(-100, 0)
+script = ExtResource("3_qs7h0")
+_texture2D = ExtResource("6_t6lt4")
+
+[node name="Sprite2D" type="Sprite2D" parent="GameManager/AligmentPoint"]
+scale = Vector2(2, 2)
+texture = ExtResource("10_45pms")
+
+[node name="AligmentPoint2" type="Node2D" parent="GameManager"]
+position = Vector2(-60, 0)
+script = ExtResource("3_qs7h0")
+_ingredientType = 3
+_texture2D = ExtResource("7_f8pi0")
+
+[node name="Sprite2D" type="Sprite2D" parent="GameManager/AligmentPoint2"]
+scale = Vector2(2, 2)
+texture = ExtResource("10_45pms")
+
+[node name="AligmentPoint3" type="Node2D" parent="GameManager"]
+position = Vector2(-20, 0)
+script = ExtResource("3_qs7h0")
+_ingredientType = 2
+_texture2D = ExtResource("5_12j8e")
+
+[node name="Sprite2D" type="Sprite2D" parent="GameManager/AligmentPoint3"]
+scale = Vector2(2, 2)
+texture = ExtResource("10_45pms")
+
+[node name="AligmentPoint4" type="Node2D" parent="GameManager"]
+position = Vector2(20, 0)
+script = ExtResource("3_qs7h0")
+_ingredientType = 1
+_texture2D = ExtResource("8_pjawc")
+
+[node name="Sprite2D" type="Sprite2D" parent="GameManager/AligmentPoint4"]
+scale = Vector2(2, 2)
+texture = ExtResource("10_45pms")
+
+[node name="AligmentPoint5" type="Node2D" parent="GameManager"]
+position = Vector2(60, 0)
+script = ExtResource("3_qs7h0")
+_ingredientType = 4
+_texture2D = ExtResource("9_nj2n4")
+
+[node name="Sprite2D" type="Sprite2D" parent="GameManager/AligmentPoint5"]
+scale = Vector2(2, 2)
+texture = ExtResource("10_45pms")
+
+[node name="AligmentPoint6" type="Node2D" parent="GameManager"]
+position = Vector2(100, 0)
+script = ExtResource("3_qs7h0")
+_ingredientType = 5
+_texture2D = ExtResource("10_45pms")
+
+[node name="Sprite2D" type="Sprite2D" parent="GameManager/AligmentPoint6"]
+scale = Vector2(2, 2)
+texture = ExtResource("10_45pms")
+
+[node name="AligmentPositionForCustomers" type="Sprite2D" parent="GameManager"]
+position = Vector2(0, -100)
+
+[node name="SubViewport" type="SubViewport" parent="."]
+size = Vector2i(320, 240)
+
+[node name="TimeBar" type="Node" parent="SubViewport" node_paths=PackedStringArray("_slider")]
+script = ExtResource("1_tsy1t")
+_slider = NodePath("HSlider")
+
+[node name="HSlider" type="HSlider" parent="SubViewport/TimeBar"]
+clip_contents = true
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -784.0
+offset_top = -249.0
+offset_right = -384.0
+offset_bottom = -233.0
+grow_horizontal = 2
+pivot_offset = Vector2(0.5, 0)
+step = 0.01
+value = 100.0
+editable = false
+scrollable = false
