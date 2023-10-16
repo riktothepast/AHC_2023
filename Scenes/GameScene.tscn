@@ -1,16 +1,26 @@
-[gd_scene load_steps=12 format=3 uid="uid://bdw2k217di8ky"]
+[gd_scene load_steps=22 format=3 uid="uid://bdw2k217di8ky"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_d4dmw"]
 [ext_resource type="Script" path="res://Scripts/TimerBar.cs" id="1_tsy1t"]
 [ext_resource type="Texture2D" uid="uid://gbqhn6fq7qsm" path="res://Sprites/clerk.png" id="3_afe1l"]
 [ext_resource type="Script" path="res://Scripts/Ingredient.cs" id="3_qs7h0"]
 [ext_resource type="Script" path="res://Scripts/GameManager.cs" id="4_6rc6c"]
+[ext_resource type="Resource" uid="uid://dnvhhvvng204" path="res://Data/Wave_0.tres" id="4_o5ff1"]
 [ext_resource type="Texture2D" uid="uid://coj146dmxa8ek" path="res://Sprites/Placeholders/color_2.png" id="5_12j8e"]
+[ext_resource type="Resource" uid="uid://d0qfqfg72odye" path="res://Data/Wave_1.tres" id="5_msn3f"]
+[ext_resource type="Resource" uid="uid://ctgu74ryryf0e" path="res://Data/Wave_2.tres" id="6_6232m"]
 [ext_resource type="Texture2D" uid="uid://b6bvwdullfe2h" path="res://Sprites/Placeholders/color_0.png" id="6_t6lt4"]
 [ext_resource type="Texture2D" uid="uid://b2j04l066ffjt" path="res://Sprites/Placeholders/color_1.png" id="7_f8pi0"]
+[ext_resource type="Texture2D" uid="uid://b35pjwdom8c21" path="res://Sprites/Input/tile_0392.png" id="7_kkqvy"]
 [ext_resource type="Texture2D" uid="uid://ch80af1llmgw2" path="res://Sprites/Placeholders/color_3.png" id="8_pjawc"]
+[ext_resource type="Texture2D" uid="uid://b4knswuohtjrr" path="res://Sprites/Input/tile_0393.png" id="9_ej6ol"]
 [ext_resource type="Texture2D" uid="uid://lux3t5vba57o" path="res://Sprites/Placeholders/color_4.png" id="9_nj2n4"]
 [ext_resource type="Texture2D" uid="uid://d3t80xcs73prf" path="res://Sprites/Placeholders/color_5.png" id="10_45pms"]
+[ext_resource type="Texture2D" uid="uid://cf4h6odcl6spw" path="res://Sprites/Input/tile_0394.png" id="11_bybc7"]
+[ext_resource type="Texture2D" uid="uid://cycb5v818j5by" path="res://Sprites/Input/tile_0398.png" id="13_f08be"]
+[ext_resource type="Texture2D" uid="uid://yuuvlxqt40hh" path="res://Sprites/Input/tile_0399.png" id="15_hiwr2"]
+[ext_resource type="Texture2D" uid="uid://d3bnxnns28c8a" path="res://Sprites/Input/tile_0400.png" id="16_qloxh"]
+[ext_resource type="Script" path="res://Scripts/ScoreUI.cs" id="21_p1eo4"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -18,20 +28,22 @@
 editor_draw_limits = true
 
 [node name="Player" type="Node2D" parent="."]
-position = Vector2(0, 68)
+position = Vector2(0, 50)
 script = ExtResource("1_d4dmw")
 _aligmentSpeed = 2.0
 
 [node name="Sprite2D" type="Sprite2D" parent="Player"]
+z_index = -2
 texture_filter = 1
 texture = ExtResource("3_afe1l")
 
-[node name="GameManager" type="Node2D" parent="." node_paths=PackedStringArray("_ingredients", "_aligmentPoint")]
-position = Vector2(0, 100)
+[node name="GameManager" type="Node2D" parent="." node_paths=PackedStringArray("_ingredients", "_aligmentPoint", "_timerBar")]
+position = Vector2(0, 84)
 script = ExtResource("4_6rc6c")
-_timePerRequest = 1.5
+_waves = Array[Resource]([ExtResource("4_o5ff1"), ExtResource("5_msn3f"), ExtResource("6_6232m")])
 _ingredients = [NodePath("AligmentPoint"), NodePath("AligmentPoint2"), NodePath("AligmentPoint3"), NodePath("AligmentPoint4"), NodePath("AligmentPoint5"), NodePath("AligmentPoint6")]
 _aligmentPoint = NodePath("AligmentPositionForCustomers")
+_timerBar = NodePath("../CanvasGroup/TimeSlider")
 
 [node name="AligmentPoint" type="Node2D" parent="GameManager"]
 position = Vector2(-100, 0)
@@ -39,8 +51,15 @@ script = ExtResource("3_qs7h0")
 _texture2D = ExtResource("6_t6lt4")
 
 [node name="Sprite2D" type="Sprite2D" parent="GameManager/AligmentPoint"]
+z_index = -1
 scale = Vector2(2, 2)
 texture = ExtResource("10_45pms")
+
+[node name="Input" type="Sprite2D" parent="GameManager/AligmentPoint/Sprite2D"]
+z_as_relative = false
+texture_filter = 1
+position = Vector2(8, 8)
+texture = ExtResource("7_kkqvy")
 
 [node name="AligmentPoint2" type="Node2D" parent="GameManager"]
 position = Vector2(-60, 0)
@@ -49,8 +68,15 @@ _ingredientType = 3
 _texture2D = ExtResource("7_f8pi0")
 
 [node name="Sprite2D" type="Sprite2D" parent="GameManager/AligmentPoint2"]
+z_index = -1
 scale = Vector2(2, 2)
 texture = ExtResource("10_45pms")
+
+[node name="Input" type="Sprite2D" parent="GameManager/AligmentPoint2/Sprite2D"]
+z_as_relative = false
+texture_filter = 1
+position = Vector2(8, 8)
+texture = ExtResource("9_ej6ol")
 
 [node name="AligmentPoint3" type="Node2D" parent="GameManager"]
 position = Vector2(-20, 0)
@@ -59,8 +85,15 @@ _ingredientType = 2
 _texture2D = ExtResource("5_12j8e")
 
 [node name="Sprite2D" type="Sprite2D" parent="GameManager/AligmentPoint3"]
+z_index = -1
 scale = Vector2(2, 2)
 texture = ExtResource("10_45pms")
+
+[node name="Input" type="Sprite2D" parent="GameManager/AligmentPoint3/Sprite2D"]
+z_as_relative = false
+texture_filter = 1
+position = Vector2(8, 8)
+texture = ExtResource("11_bybc7")
 
 [node name="AligmentPoint4" type="Node2D" parent="GameManager"]
 position = Vector2(20, 0)
@@ -69,8 +102,15 @@ _ingredientType = 1
 _texture2D = ExtResource("8_pjawc")
 
 [node name="Sprite2D" type="Sprite2D" parent="GameManager/AligmentPoint4"]
+z_index = -1
 scale = Vector2(2, 2)
 texture = ExtResource("10_45pms")
+
+[node name="Input" type="Sprite2D" parent="GameManager/AligmentPoint4/Sprite2D"]
+z_as_relative = false
+texture_filter = 1
+position = Vector2(8, 8)
+texture = ExtResource("13_f08be")
 
 [node name="AligmentPoint5" type="Node2D" parent="GameManager"]
 position = Vector2(60, 0)
@@ -79,8 +119,15 @@ _ingredientType = 4
 _texture2D = ExtResource("9_nj2n4")
 
 [node name="Sprite2D" type="Sprite2D" parent="GameManager/AligmentPoint5"]
+z_index = -1
 scale = Vector2(2, 2)
 texture = ExtResource("10_45pms")
+
+[node name="Input" type="Sprite2D" parent="GameManager/AligmentPoint5/Sprite2D"]
+z_as_relative = false
+texture_filter = 1
+position = Vector2(8, 8)
+texture = ExtResource("15_hiwr2")
 
 [node name="AligmentPoint6" type="Node2D" parent="GameManager"]
 position = Vector2(100, 0)
@@ -89,31 +136,70 @@ _ingredientType = 5
 _texture2D = ExtResource("10_45pms")
 
 [node name="Sprite2D" type="Sprite2D" parent="GameManager/AligmentPoint6"]
+z_index = -1
 scale = Vector2(2, 2)
 texture = ExtResource("10_45pms")
+
+[node name="Input" type="Sprite2D" parent="GameManager/AligmentPoint6/Sprite2D"]
+z_as_relative = false
+texture_filter = 1
+position = Vector2(8, 8)
+texture = ExtResource("16_qloxh")
 
 [node name="AligmentPositionForCustomers" type="Sprite2D" parent="GameManager"]
 position = Vector2(0, -100)
 
-[node name="SubViewport" type="SubViewport" parent="."]
-size = Vector2i(320, 240)
+[node name="CanvasGroup" type="CanvasGroup" parent="."]
 
-[node name="TimeBar" type="Node" parent="SubViewport" node_paths=PackedStringArray("_slider")]
-script = ExtResource("1_tsy1t")
-_slider = NodePath("HSlider")
-
-[node name="HSlider" type="HSlider" parent="SubViewport/TimeBar"]
+[node name="TimeSlider" type="HSlider" parent="CanvasGroup"]
 clip_contents = true
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -784.0
-offset_top = -249.0
-offset_right = -384.0
-offset_bottom = -233.0
+offset_left = -1.0
+offset_top = -119.0
+offset_right = 159.0
+offset_bottom = -103.0
 grow_horizontal = 2
 pivot_offset = Vector2(0.5, 0)
 step = 0.01
 value = 100.0
 editable = false
 scrollable = false
+script = ExtResource("1_tsy1t")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasGroup"]
+offset_left = -150.0
+offset_top = -120.0
+offset_right = -101.0
+offset_bottom = -96.0
+text = "Score:"
+scroll_active = false
+
+[node name="ScoreValue" type="RichTextLabel" parent="CanvasGroup"]
+offset_left = -101.0
+offset_top = -120.0
+offset_right = -52.0
+offset_bottom = -96.0
+text = "0"
+scroll_active = false
+script = ExtResource("21_p1eo4")
+
+[node name="Node2D" type="Node2D" parent="CanvasGroup"]
+visible = false
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasGroup/Node2D"]
+rotation = -0.00872665
+scale = Vector2(30, 4)
+texture = ExtResource("10_45pms")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasGroup/Node2D"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_right = 100.0
+offset_bottom = 69.0
+grow_horizontal = 2
+text = "GET READY"
+fit_content = true

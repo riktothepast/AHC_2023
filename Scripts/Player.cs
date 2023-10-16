@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 public partial class Player : Node2D
@@ -17,18 +18,6 @@ public partial class Player : Node2D
 
 	public override void _Process(double delta)
 	{
-		if (Input.IsActionJustPressed("move_right"))
-		{
-			PlayerAligment(1);
-		}
-		if (Input.IsActionJustPressed("move_left"))
-		{
-			PlayerAligment(-1);
-		}
-		if (Input.IsActionJustPressed("give"))
-		{
-			GiveIngredient();
-		}
 	}
 
 	private void SetIngredientPoints(Ingredient[] ingredients)
@@ -46,22 +35,22 @@ public partial class Player : Node2D
 			{
 				switch(eventKey.Keycode)
 				{
-					case Key.Key1:
+					case Key.A:
 						ChangeIndex(0);
 						break;
-					case Key.Key2:
+					case Key.S:
 						ChangeIndex(1);
 						break;
-					case Key.Key3:
+					case Key.D:
 						ChangeIndex(2);
 						break;
-					case Key.Key4:
+					case Key.J:
 						ChangeIndex(3);
 						break;
-					case Key.Key5:
+					case Key.K:
 						ChangeIndex(4);
 						break;
-					case Key.Key6:
+					case Key.L:
 						ChangeIndex(5);
 						break;
 				}
@@ -72,16 +61,10 @@ public partial class Player : Node2D
 	private void ChangeIndex(int value)
 	{
 		_currentIndex = value;
-		ChangePosition();
+		ChangePosition(GiveIngredient);
 	}
 
-	private void PlayerAligment(int value)
-	{
-		_currentIndex += value;
-		ChangePosition();
-	}
-
-	private void ChangePosition()
+	private void ChangePosition(Action onComplete = null)
 	{
 		if(_currentIndex < 0)
 		{
@@ -93,6 +76,10 @@ public partial class Player : Node2D
 		}
 		Position = new Vector2(_ingredients[_currentIndex].Position.X, Position.Y);
 		Tween tween = GetTree().CreateTween();
+		if (onComplete != null)
+		{
+			tween.TweenCallback(new Callable(this, nameof(GiveIngredient)));
+		}
 		tween.Chain().TweenProperty(this, "scale", new Vector2(1.2f, 0.8f), 0.1f).SetTrans(Tween.TransitionType.Bounce);
 		tween.Chain().TweenProperty(this, "scale", Vector2.One, 0.1f).SetTrans(Tween.TransitionType.Bounce);
 	}

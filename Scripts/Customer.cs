@@ -25,7 +25,7 @@ public partial class Customer : Node2D
 		{
 			_time -= delta;
 			_slider.SetValueNoSignal(_time);
-			if(_time <= 0)
+			if (_time <= 0)
 			{
 				_process = false;
 				_customSignals.EmitSignal("CustomerLostPatience");
@@ -33,12 +33,12 @@ public partial class Customer : Node2D
 		}
 	}
 
-	public void Initialize(float time = 3f)
+	public void Initialize(double time = 3f)
 	{
 		SetTime(time);
 		Tween tween = GetTree().CreateTween();
 		tween.TweenCallback(new Callable(this, nameof(Enable)));
-		tween.TweenProperty(_requestedItem, "scale", Vector2.One, 0.25f).SetTrans(Tween.TransitionType.Linear);
+		_requestedItem.Scale = Vector2.One;
 	}
 
 	private void Enable()
@@ -90,9 +90,12 @@ public partial class Customer : Node2D
 		reaction.Initialize(gaveIngredient ? Expresion.HAPPY_REACTION : Expresion.ANGRY_REACTION);
 	}
 
-	public double CalculateScore()
+	public int CalculateScore()
 	{
-		return _time /_slider.MaxValue;
+		double value = _time /_slider.MaxValue;
+		int result = (int)((value - (int)value) * 100);
+
+		return result;
 	}
 
 	public void MoveTween(Vector2 target)

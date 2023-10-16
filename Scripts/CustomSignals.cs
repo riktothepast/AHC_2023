@@ -16,9 +16,6 @@ public partial class CustomSignals : Node
     public delegate void SetIngredientsEventHandler(Ingredient[] ingredients);
 
     [Signal]
-    public delegate void SetTimerValueEventHandler(float timerTotalValue);
-
-    [Signal]
     public delegate void HandleIngredientEventHandler(INGREDIENT_TYPE ingredient, bool force = false);
 
     [Signal]
@@ -26,4 +23,7 @@ public partial class CustomSignals : Node
     
     [Signal]
     public delegate void CustomerLostPatienceEventHandler();
+
+    [Signal]
+    public delegate void IncreaseScoreEventHandler(int value);
 }
