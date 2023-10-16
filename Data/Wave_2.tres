@@ -1,0 +1,10 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://ctgu74ryryf0e"]
+
+[ext_resource type="Script" path="res://Scripts/Wave.cs" id="1_2o32j"]
+
+[resource]
+script = ExtResource("1_2o32j")
+WaveTime = 6.0
+TimePerRequest = 1.5
+ClientQueueSize = 12
+AvailableIngredients = Array[int]([0, 1, 2, 3])
