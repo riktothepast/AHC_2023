@@ -11,13 +11,14 @@ config_version=5
 [application]
 
 config/name="AH2023"
-run/main_scene="res://Scenes/GameScene.tscn"
+run/main_scene="res://Scenes/Title.tscn"
 config/features=PackedStringArray("4.1", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
 Signals="*res://Scripts/CustomSignals.cs"
+SceneSwitch="*res://Scripts/SceneSwitch.cs"
 
 [display]
 
