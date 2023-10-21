@@ -78,8 +78,14 @@ public partial class Customer : Node2D
 		await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
 		Squash();
 		Tween tween = GetTree().CreateTween();
-		tween.TweenProperty(this, "position", new Vector2(-5000, Position.Y), 1.5f).SetTrans(Tween.TransitionType.Linear);
+		tween.TweenProperty(this, "position", new Vector2(Position.X, 500), 1.5f).SetTrans(Tween.TransitionType.Linear);
+		tween.TweenCallback(new Callable(this, nameof(Destroy)));
 		action?.Invoke();
+	}
+
+	private void Destroy()
+	{
+		QueueFree();
 	}
 
 	public void CreateExpresion(bool gaveIngredient)

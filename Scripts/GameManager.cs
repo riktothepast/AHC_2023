@@ -65,6 +65,12 @@ public partial class GameManager : Node
 		{
 			_currentTime -= delta;
 			_timerBar.UpdateTimer(_currentTime);
+			if (_currentTime <=0)
+			{
+				_gameRunning = false;
+				_customSignals.EmitSignal("GameOver", 0);
+				GameOver();
+			}
 		}
 	}
 
@@ -85,6 +91,7 @@ public partial class GameManager : Node
 			return;
 		}
         Customer customer = _customers.Peek();
+		customer.Move(_aligmentPoint.Position);
 		customer.Initialize(_currentTimePerRequest);
 	}
 
@@ -96,13 +103,22 @@ public partial class GameManager : Node
             Node node = CreateNewCustomer();
             Customer customer = (Customer)node;
             Vector2 position = _aligmentPoint.Position;
-			position.X += 200;
+			position.Y += 200;
 			customer.Position = position;
 			INGREDIENT_TYPE ingredientForCustomer = GetIngredient();
             Texture2D texture = _ingredientsDict.GetValueOrDefault(ingredientForCustomer, null);
 			customer.SetIngredient(ingredientForCustomer, texture);
-			customer.Move(new Vector2(160f * x, _aligmentPoint.Position.Y));
+			customer.Move(new Vector2(_aligmentPoint.Position.X, _aligmentPoint.Position.Y + 160f));
 			_customers.Enqueue(customer);
+		}
+	}
+
+	private void GameOver()
+	{
+		while(_customers.Count > 0)
+		{
+			Customer customer = _customers.Dequeue();
+			customer.GetOut(false, null);
 		}
 	}
 
@@ -154,12 +170,6 @@ public partial class GameManager : Node
 
 	private void ReAlignCustomers()
 	{
-		foreach ( Customer customer in _customers )
-		{
-			Vector2 newPos = customer.Position;
-			newPos.X -= 160;
-			customer.Move(newPos);
-		}
 		ActivateNewCustomer();
 		_notAligned = false;
 	}

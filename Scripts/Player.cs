@@ -8,12 +8,14 @@ public partial class Player : Node2D
 	private Ingredient[] _ingredients;
 	private CustomSignals _customSignals;
 	private int _currentIndex;
+	private bool _isGameOver;
 
 	public override void _Ready()
 	{
 		base._Ready();
         _customSignals = GetNode<CustomSignals>("/root/Signals");
         _customSignals.Connect("SetIngredients", new Callable(this, nameof(SetIngredientPoints)));
+		_customSignals.Connect("GameOver", new Callable(this, nameof(GameOver)));
 	}
 
 	public override void _Process(double delta)
@@ -27,8 +29,17 @@ public partial class Player : Node2D
 		Position = new Vector2(_ingredients[_currentIndex].Position.X, Position.Y);
 	}
 
+	private void GameOver(int finalScore)
+	{
+		_isGameOver = true;
+	}
+
 	public override void _UnhandledInput(InputEvent @event)
 	{
+		if(_isGameOver)
+		{
+			return;
+		}
 		if (@event is InputEventKey eventKey)
 		{
 			if (eventKey.IsPressed())
