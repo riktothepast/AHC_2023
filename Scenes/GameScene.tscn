@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bdw2k217di8ky"]
+[gd_scene load_steps=27 format=3 uid="uid://bdw2k217di8ky"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_d4dmw"]
 [ext_resource type="Script" path="res://Scripts/TimerBar.cs" id="1_tsy1t"]
@@ -20,7 +20,12 @@
 [ext_resource type="Texture2D" uid="uid://cycb5v818j5by" path="res://Sprites/Input/tile_0398.png" id="13_f08be"]
 [ext_resource type="Texture2D" uid="uid://yuuvlxqt40hh" path="res://Sprites/Input/tile_0399.png" id="15_hiwr2"]
 [ext_resource type="Texture2D" uid="uid://d3bnxnns28c8a" path="res://Sprites/Input/tile_0400.png" id="16_qloxh"]
+[ext_resource type="FontFile" uid="uid://cgrepl6j5kr8v" path="res://Fonts/Kenney Pixel.ttf" id="21_dv38d"]
 [ext_resource type="Script" path="res://Scripts/ScoreUI.cs" id="21_p1eo4"]
+[ext_resource type="Texture2D" uid="uid://b1d582oe0hm8a" path="res://Sprites/tiendita.png" id="22_dnx5r"]
+[ext_resource type="Texture2D" uid="uid://dtjskgi7so62a" path="res://Sprites/tiendita_wall.png" id="23_7rntv"]
+[ext_resource type="Script" path="res://Scripts/RoundMessage.cs" id="23_41idy"]
+[ext_resource type="Texture2D" uid="uid://dn2ahfj57cu6w" path="res://Sprites/tiendita_front.png" id="24_4odqx"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -35,10 +40,11 @@ _aligmentSpeed = 2.0
 [node name="Sprite2D" type="Sprite2D" parent="Player"]
 z_index = -2
 texture_filter = 1
+position = Vector2(0, -70)
 texture = ExtResource("3_afe1l")
 
 [node name="GameManager" type="Node2D" parent="." node_paths=PackedStringArray("_ingredients", "_aligmentPoint", "_timerBar")]
-position = Vector2(0, 84)
+position = Vector2(0, 14)
 script = ExtResource("4_6rc6c")
 _waves = Array[Resource]([ExtResource("4_o5ff1"), ExtResource("5_msn3f"), ExtResource("6_6232m")])
 _ingredients = [NodePath("AligmentPoint"), NodePath("AligmentPoint2"), NodePath("AligmentPoint3"), NodePath("AligmentPoint4"), NodePath("AligmentPoint5"), NodePath("AligmentPoint6")]
@@ -46,16 +52,17 @@ _aligmentPoint = NodePath("AligmentPositionForCustomers")
 _timerBar = NodePath("../CanvasGroup/TimeSlider")
 
 [node name="AligmentPoint" type="Node2D" parent="GameManager"]
-position = Vector2(-100, 0)
+position = Vector2(-100, 1)
 script = ExtResource("3_qs7h0")
 _texture2D = ExtResource("6_t6lt4")
 
 [node name="Sprite2D" type="Sprite2D" parent="GameManager/AligmentPoint"]
-z_index = -1
+z_index = 1
 scale = Vector2(2, 2)
 texture = ExtResource("10_45pms")
 
 [node name="Input" type="Sprite2D" parent="GameManager/AligmentPoint/Sprite2D"]
+z_index = 2
 z_as_relative = false
 texture_filter = 1
 position = Vector2(8, 8)
@@ -68,11 +75,12 @@ _ingredientType = 3
 _texture2D = ExtResource("7_f8pi0")
 
 [node name="Sprite2D" type="Sprite2D" parent="GameManager/AligmentPoint2"]
-z_index = -1
+z_index = 1
 scale = Vector2(2, 2)
 texture = ExtResource("10_45pms")
 
 [node name="Input" type="Sprite2D" parent="GameManager/AligmentPoint2/Sprite2D"]
+z_index = 2
 z_as_relative = false
 texture_filter = 1
 position = Vector2(8, 8)
@@ -85,11 +93,12 @@ _ingredientType = 2
 _texture2D = ExtResource("5_12j8e")
 
 [node name="Sprite2D" type="Sprite2D" parent="GameManager/AligmentPoint3"]
-z_index = -1
+z_index = 1
 scale = Vector2(2, 2)
 texture = ExtResource("10_45pms")
 
 [node name="Input" type="Sprite2D" parent="GameManager/AligmentPoint3/Sprite2D"]
+z_index = 2
 z_as_relative = false
 texture_filter = 1
 position = Vector2(8, 8)
@@ -102,11 +111,12 @@ _ingredientType = 1
 _texture2D = ExtResource("8_pjawc")
 
 [node name="Sprite2D" type="Sprite2D" parent="GameManager/AligmentPoint4"]
-z_index = -1
+z_index = 1
 scale = Vector2(2, 2)
 texture = ExtResource("10_45pms")
 
 [node name="Input" type="Sprite2D" parent="GameManager/AligmentPoint4/Sprite2D"]
+z_index = 2
 z_as_relative = false
 texture_filter = 1
 position = Vector2(8, 8)
@@ -119,11 +129,12 @@ _ingredientType = 4
 _texture2D = ExtResource("9_nj2n4")
 
 [node name="Sprite2D" type="Sprite2D" parent="GameManager/AligmentPoint5"]
-z_index = -1
+z_index = 1
 scale = Vector2(2, 2)
 texture = ExtResource("10_45pms")
 
 [node name="Input" type="Sprite2D" parent="GameManager/AligmentPoint5/Sprite2D"]
+z_index = 2
 z_as_relative = false
 texture_filter = 1
 position = Vector2(8, 8)
@@ -136,18 +147,19 @@ _ingredientType = 5
 _texture2D = ExtResource("10_45pms")
 
 [node name="Sprite2D" type="Sprite2D" parent="GameManager/AligmentPoint6"]
-z_index = -1
+z_index = 1
 scale = Vector2(2, 2)
 texture = ExtResource("10_45pms")
 
 [node name="Input" type="Sprite2D" parent="GameManager/AligmentPoint6/Sprite2D"]
+z_index = 2
 z_as_relative = false
 texture_filter = 1
 position = Vector2(8, 8)
 texture = ExtResource("16_qloxh")
 
 [node name="AligmentPositionForCustomers" type="Sprite2D" parent="GameManager"]
-position = Vector2(0, -100)
+position = Vector2(0, 80)
 
 [node name="CanvasGroup" type="CanvasGroup" parent="."]
 
@@ -169,37 +181,66 @@ scrollable = false
 script = ExtResource("1_tsy1t")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="CanvasGroup"]
+texture_filter = 1
 offset_left = -150.0
-offset_top = -120.0
+offset_top = -107.12
 offset_right = -101.0
-offset_bottom = -96.0
+offset_bottom = -91.12
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("21_dv38d")
+theme_override_font_sizes/normal_font_size = 16
 text = "Score:"
 scroll_active = false
 
 [node name="ScoreValue" type="RichTextLabel" parent="CanvasGroup"]
+texture_filter = 1
 offset_left = -101.0
-offset_top = -120.0
+offset_top = -107.12
 offset_right = -52.0
-offset_bottom = -96.0
+offset_bottom = -91.12
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("21_dv38d")
+theme_override_font_sizes/normal_font_size = 16
 text = "0"
 scroll_active = false
 script = ExtResource("21_p1eo4")
 
-[node name="Node2D" type="Node2D" parent="CanvasGroup"]
-visible = false
+[node name="RoundMessage" type="Node2D" parent="CanvasGroup"]
+z_index = 4096
+position = Vector2(0, 80)
+scale = Vector2(1, 1e-05)
+script = ExtResource("23_41idy")
 
-[node name="Sprite2D" type="Sprite2D" parent="CanvasGroup/Node2D"]
-rotation = -0.00872665
-scale = Vector2(30, 4)
+[node name="Sprite2D" type="Sprite2D" parent="CanvasGroup/RoundMessage"]
+modulate = Color(0.796078, 0, 0.690196, 0.470588)
+scale = Vector2(30, 2)
 texture = ExtResource("10_45pms")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="CanvasGroup/Node2D"]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -100.0
-offset_right = 100.0
-offset_bottom = 69.0
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasGroup/RoundMessage"]
+z_index = 4096
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("21_dv38d")
+theme_override_font_sizes/normal_font_size = 32
 text = "GET READY"
 fit_content = true
+autowrap_mode = 0
+
+[node name="Tiendita" type="Sprite2D" parent="."]
+z_index = -1000
+texture_filter = 1
+texture = ExtResource("22_dnx5r")
+
+[node name="TienditaWall" type="Sprite2D" parent="."]
+z_index = -500
+texture_filter = 1
+texture = ExtResource("23_7rntv")
+
+[node name="TienditaFront" type="Sprite2D" parent="."]
+position = Vector2(0, -32.175)
+texture = ExtResource("24_4odqx")

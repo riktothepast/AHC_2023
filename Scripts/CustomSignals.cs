@@ -26,4 +26,10 @@ public partial class CustomSignals : Node
 
     [Signal]
     public delegate void IncreaseScoreEventHandler(int value);
+
+    [Signal]
+    public delegate void RoundCompleteEventHandler();
+
+    [Signal]
+    public delegate void RoundResumeEventHandler();
 }

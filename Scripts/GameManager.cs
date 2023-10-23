@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Godot;
 
 public partial class GameManager : Node
@@ -32,6 +34,7 @@ public partial class GameManager : Node
 		_customSignals.EmitSignal("SetIngredients", _ingredients);
         _customSignals.Connect("HandleIngredient", new Callable(this, nameof(HandleIngredientRequest)));
 		_customSignals.Connect("CustomerLostPatience", new Callable(this, nameof(RemoveCurrentCustomer)));
+		_customSignals.Connect("RoundResume", new Callable(this, nameof(NewWave)));
 		_customers = new Queue<Customer>();
 
 		_ingredientsDict = new Dictionary<INGREDIENT_TYPE, Texture2D>();
@@ -39,6 +42,21 @@ public partial class GameManager : Node
 		{
 			_ingredientsDict.Add(_ingredients[x].GetIngredient(), _ingredients[x].GetTexture());
 		}
+		DelayStart();
+	}
+
+	private async void DelayStart()
+	{
+		TimeSpan span = TimeSpan.FromSeconds(1f);
+		await Task.Delay(span);
+		_customSignals.EmitSignal("RoundComplete");
+	}
+
+	public async void NewWave()
+	{
+		_gameRunning = false;
+		TimeSpan span = TimeSpan.FromSeconds(1f);
+		await Task.Delay(span);
 		SetupNewWave();
 		CreateCustomers();
 		StartGame();
@@ -55,7 +73,7 @@ public partial class GameManager : Node
 
 		if (_currentWaveIndex > _waves.Length - 1)
 		{
-			_currentWaveIndex = +_waves.Length - 1;
+			_currentWaveIndex = _waves.Length - 1;
 		}
 	}
 
@@ -85,9 +103,7 @@ public partial class GameManager : Node
 	{
 		if (_customers.Count <= 0)
 		{
-			SetupNewWave();
-			CreateCustomers();
-			StartGame();
+			_customSignals.EmitSignal("RoundComplete");
 			return;
 		}
         Customer customer = _customers.Peek();
@@ -103,12 +119,11 @@ public partial class GameManager : Node
             Node node = CreateNewCustomer();
             Customer customer = (Customer)node;
             Vector2 position = _aligmentPoint.Position;
-			position.Y += 200;
+			position.Y +=160f;
 			customer.Position = position;
 			INGREDIENT_TYPE ingredientForCustomer = GetIngredient();
             Texture2D texture = _ingredientsDict.GetValueOrDefault(ingredientForCustomer, null);
 			customer.SetIngredient(ingredientForCustomer, texture);
-			customer.Move(new Vector2(_aligmentPoint.Position.X, _aligmentPoint.Position.Y + 160f));
 			_customers.Enqueue(customer);
 		}
 	}
@@ -124,7 +139,7 @@ public partial class GameManager : Node
 
 	private INGREDIENT_TYPE GetIngredient()
 	{
-		System.Random random = new System.Random();
+		System.Random random = new();
 		INGREDIENT_TYPE randomItem = _availableIngredients[random.Next(_availableIngredients.Count)];
 		if (randomItem == _lastIngredient)
 		{

@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://b5sd2u7u47kd5"]
+
+[ext_resource type="FontFile" uid="uid://ck10tynmy2m4l" path="res://Fonts/Kenney Pixel Square.ttf" id="1_0mxo8"]
+[ext_resource type="Script" path="res://Scripts/ButtonSceneSwitch.cs" id="2_mmtnw"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="Button" parent="." node_paths=PackedStringArray("shortcut_context")]
+texture_filter = 1
+layout_mode = 0
+offset_left = 138.0
+offset_top = 182.0
+offset_right = 185.0
+offset_bottom = 213.0
+shortcut_context = NodePath(".")
+theme_override_fonts/font = ExtResource("1_0mxo8")
+text = "PLAY"
+script = ExtResource("2_mmtnw")
+SceneName = "GameScene"
